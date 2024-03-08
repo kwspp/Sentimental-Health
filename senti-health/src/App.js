@@ -1,23 +1,14 @@
-import logo from './logo.svg';
+import React from 'react';
+import PatientsContainer from './components/PatientsContainer';
+import 'bulma/css/bulma.min.css';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <section className="section">
+        <PatientsContainer />
+      </section>
     </div>
   );
 }
