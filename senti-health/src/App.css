@@ -4,3 +4,30 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+.patient-convo {
+  margin: 20px;
+  padding: 40px;
+  background-color: #3a3a3a;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.convo-title {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.convo-input {
+  margin: 20px 0;
+}
+
+.convo-input input {
+  width: 80%; 
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+}
