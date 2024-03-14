@@ -1,0 +1,71 @@
+.patient-box {
+    cursor: pointer;
+    margin: 20px;
+    padding: 40px;
+    background-color: #2a2a2a;
+    color: #ffffff; 
+    text-align: center;
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    transition: transform 0.2s, box-shadow 0.2s; 
+  }
+  
+  .patient-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+  }
+  
+  .patient-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .patient-icon {
+    font-size: 2em;
+    margin: 20px 0;
+  }
+  
+  .modal {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    position: fixed; /* Change to fixed to cover the whole screen */
+    padding: 0px;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: #333; 
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #222; 
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); 
+    width: 50%; 
+    color: white;
+  }  
+  
+  .close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 25px;
+    cursor: pointer;
+  }
+  
+  label {
+    display: inline; 
+    margin: 10px 0; 
+  }
+  
+  input[type="text"],
+  input[type="number"] {
+    margin: 0 10px 0 5px; 
+    padding: 5px; 
+  }
+  
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
