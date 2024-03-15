@@ -1,0 +1,34 @@
+.patient-convo {
+    margin: 20px;
+    padding: 40px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+  
+.convo-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+  
+.convo-input {
+    margin: 20px 0;
+}
+  
+.convo-input textarea {
+    width: 100%; 
+    padding: 20px; 
+    font-size: 1em; 
+    border: none;
+    border-radius: 5px;
+    min-height: 150px; 
+    resize: vertical; 
+}
+
+button {
+    margin-top: 20px;
+    padding: 6px 20px;
+    cursor: pointer;
+  }
