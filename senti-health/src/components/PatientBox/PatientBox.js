@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { addPatient } from '../../firebase';
 import './PatientBox.css';
 
 const PatientBox = ({ patientId }) => {
@@ -6,11 +7,23 @@ const PatientBox = ({ patientId }) => {
   const [patientName, setPatientName] = useState('');
   const [patientAge, setPatientAge] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // handle the submission
-    console.log(`Patient Name: ${patientName}, Age: ${patientAge}`);
-    setIsModalOpen(false);
+
+    const patientData = {
+      name: patientName,
+      age: parseInt(patientAge, 10),
+      patientId: patientId
+    };
+
+    addPatient(patientData)
+    .then((docRef) => {
+      console.log(`Patient added with ID: ${docRef.id}`);
+    })
+    .catch((error) => {
+      console.error('Error adding patient:', error);
+    });    setIsModalOpen(false);
+    
   };
 
   return (
