@@ -6,8 +6,6 @@ const PatientBox = ({ patientId }) => {
   const [patientName, setPatientName] = useState('');
   const [patientAge, setPatientAge] = useState('');
 
-  console.log(isModalOpen);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // handle the submission
@@ -22,9 +20,15 @@ const PatientBox = ({ patientId }) => {
         <span className="patient-icon">
           <i className="fas fa-plus-circle"></i>
         </span>
-        <p>Click to add patient details</p>
+        {patientName && patientAge ? (
+          <div> 
+            <p>Name: {patientName}</p>
+            <p>Age: {patientAge}</p>
+          </div>
+        ) : (
+          <p>Click to add patient details</p>
+        )}
       </div>
-
       <div className="modal" style={{ display: isModalOpen ? "block" : "none" }}>
         <div className="modal-content">
           <span className="close-button" onClick={() => setIsModalOpen(false)}>&times;</span>
