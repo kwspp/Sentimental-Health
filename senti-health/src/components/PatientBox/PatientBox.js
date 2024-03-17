@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addPatient, getPatientByPatientId, deletePatientByPatientId } from '../../firebase';
+import { addPatient, getPatientByPatientId, deletePatientByPatientId, updatePatientByPatientId } from '../../firebase';
 import './PatientBox.css';
 
 const PatientBox = ({ patientId, onSelectPatient, isSelected }) => {
@@ -37,9 +37,14 @@ const PatientBox = ({ patientId, onSelectPatient, isSelected }) => {
       age: parseInt(patientAge, 10),
       patientId
     };
-    await addPatient(patientData);
+    if (hasData) {
+      await updatePatientByPatientId(patientId, patientData);
+    } else {
+      await addPatient({ ...patientData, patientId });
+      setHasData(true);
+    }
+
     setIsModalOpen(false);
-    setHasData(true);
   };
 
     const handleEdit = (event) => {
@@ -69,7 +74,7 @@ const PatientBox = ({ patientId, onSelectPatient, isSelected }) => {
           <div> 
             <p>Name: {patientName}</p>
             <p>Age: {patientAge}</p>
-            <button onClick={handleEdit}>Edit</button>
+            <button style={{marginRight: 10 }} onClick={handleEdit}>Edit</button>
             <button onClick={handleDelete}>Delete</button>
           </div>
         ) : (

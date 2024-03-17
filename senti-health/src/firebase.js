@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDocs, query, where, deleteDoc, doc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDocs, query, where, deleteDoc, updateDoc, doc } from 'firebase/firestore';
 
 
 const firebaseConfig = {
@@ -42,4 +42,14 @@ const deletePatientByPatientId = async (patientId) => {
   });
 };
 
-export { db, addPatient, getPatientByPatientId, deletePatientByPatientId };
+const updatePatientByPatientId = async (patientId, updatedData) => {
+  const q = query(collection(db, 'patients'), where('patientId', '==', patientId));
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach(async (document) => {
+    const patientDocRef = doc(db, 'patients', document.id);
+    await updateDoc(patientDocRef, updatedData);
+  });
+};
+
+
+export { db, addPatient, getPatientByPatientId, deletePatientByPatientId, updatePatientByPatientId };
