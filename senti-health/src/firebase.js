@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 
 
 const firebaseConfig = {
@@ -23,5 +23,16 @@ const addPatient = async (patientData) => {
     console.error('Error adding document: ', e);
   }
 };
+
+const getPatientByPatientId = async (patientId) => {
+  const q = query(collection(db, 'patients'), where('patientId', '==', patientId));
+  const querySnapshot = await getDocs(q);
+  let patientData = null;
+  querySnapshot.forEach((doc) => {
+    // Assuming each patientId has unique patient data
+    patientData = { id: doc.id, ...doc.data() };
+  });
+  return patientData;
+};
   
-export { db, addPatient };
+export { db, addPatient, getPatientByPatientId };

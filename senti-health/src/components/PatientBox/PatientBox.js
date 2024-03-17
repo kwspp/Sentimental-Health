@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
-import { addPatient } from '../../firebase';
+import React, { useState, useEffect } from 'react';
+import { addPatient, getPatientByPatientId  } from '../../firebase';
 import './PatientBox.css';
 
 const PatientBox = ({ patientId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [patientName, setPatientName] = useState('');
   const [patientAge, setPatientAge] = useState('');
+
+  useEffect(() => {
+    const fetchPatientData = async () => {
+      const patientData = await getPatientByPatientId(patientId);
+      if (patientData) {
+        setPatientName(patientData.name);
+        setPatientAge(patientData.age);
+      }
+    };
+
+    fetchPatientData();
+  }, [patientId]);
 
   const handleSubmit = async(e) => {
     e.preventDefault();
