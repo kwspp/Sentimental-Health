@@ -17,13 +17,8 @@ const PatientBox = ({ patientId }) => {
     };
 
     addPatient(patientData)
-    .then((docRef) => {
-      console.log(`Patient added with ID: ${docRef.id}`);
-    })
-    .catch((error) => {
-      console.error('Error adding patient:', error);
-    });    setIsModalOpen(false);
-    
+    setIsModalOpen(false);
+
   };
 
   return (
