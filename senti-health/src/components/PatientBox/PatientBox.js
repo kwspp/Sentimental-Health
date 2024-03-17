@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addPatient, getPatientByPatientId } from '../../firebase';
+import { addPatient, getPatientByPatientId, deletePatientByPatientId } from '../../firebase';
 import './PatientBox.css';
 
 const PatientBox = ({ patientId, onSelectPatient, isSelected }) => {
@@ -15,23 +15,21 @@ const PatientBox = ({ patientId, onSelectPatient, isSelected }) => {
         setPatientName(patientData.name);
         setPatientAge(patientData.age);
         setHasData(true);
-      } else {
-        setHasData(false);
       }
     };
-
     fetchPatientData();
   }, [patientId]);
 
+  // handles showing modal or selecting patient
   const handleClick = () => {
     if (hasData) {
       onSelectPatient(patientId);
-      console.log(`selected patient #${patientId}`)
     } else {
       setIsModalOpen(true);
     }
   };
 
+  // handles submission logic
   const handleSubmit = async (e) => {
     e.preventDefault();
     const patientData = {
@@ -44,22 +42,41 @@ const PatientBox = ({ patientId, onSelectPatient, isSelected }) => {
     setHasData(true);
   };
 
+    const handleEdit = (event) => {
+    event.stopPropagation();
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = async () => {
+    await deletePatientByPatientId(patientId);
+    // set to null to indicate deletion
+    setPatientName('');
+    setPatientAge('');
+    setHasData(false);
+    onSelectPatient(null); // unselect the patient box
+  };
+
   return (
     <div>
+      {/* handles displaying patientBox in green on select */}
       <div onClick={handleClick} className={`patient-box ${isSelected ? 'selected' : ''}`}>
         <p className="patient-title">Patient #{patientId}</p>
         <span className="patient-icon">
           <i className="fas fa-plus-circle"></i>
         </span>
+        {/* display patient info if exists */}
         {patientName && patientAge ? (
           <div> 
             <p>Name: {patientName}</p>
             <p>Age: {patientAge}</p>
+            <button onClick={handleEdit}>Edit</button>
+            <button onClick={handleDelete}>Delete</button>
           </div>
         ) : (
           <p>Click to add patient details</p>
         )}
       </div>
+      {/* handles modal logic */}
       <div className="modal" style={{ display: isModalOpen ? "block" : "none" }}>
         <div className="modal-content">
           <span className="close-button" onClick={() => setIsModalOpen(false)}>&times;</span>
