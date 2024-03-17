@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { addPatient, getPatientByPatientId  } from '../../firebase';
+import { addPatient, getPatientByPatientId } from '../../firebase';
 import './PatientBox.css';
 
-const PatientBox = ({ patientId }) => {
+const PatientBox = ({ patientId, onSelectPatient, isSelected }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [patientName, setPatientName] = useState('');
   const [patientAge, setPatientAge] = useState('');
+  const [hasData, setHasData] = useState(false);
 
   useEffect(() => {
     const fetchPatientData = async () => {
@@ -13,29 +14,39 @@ const PatientBox = ({ patientId }) => {
       if (patientData) {
         setPatientName(patientData.name);
         setPatientAge(patientData.age);
+        setHasData(true);
+      } else {
+        setHasData(false);
       }
     };
 
     fetchPatientData();
   }, [patientId]);
 
-  const handleSubmit = async(e) => {
-    e.preventDefault();
+  const handleClick = () => {
+    if (hasData) {
+      onSelectPatient(patientId);
+      console.log(`selected patient #${patientId}`)
+    } else {
+      setIsModalOpen(true);
+    }
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const patientData = {
       name: patientName,
       age: parseInt(patientAge, 10),
-      patientId: patientId
+      patientId
     };
-
-    addPatient(patientData)
+    await addPatient(patientData);
     setIsModalOpen(false);
-
+    setHasData(true);
   };
 
   return (
     <div>
-      <div className="patient-box" onClick={() => setIsModalOpen(true)}>
+      <div onClick={handleClick} className={`patient-box ${isSelected ? 'selected' : ''}`}>
         <p className="patient-title">Patient #{patientId}</p>
         <span className="patient-icon">
           <i className="fas fa-plus-circle"></i>

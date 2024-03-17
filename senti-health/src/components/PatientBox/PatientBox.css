@@ -69,3 +69,7 @@
     padding: 10px 20px;
     cursor: pointer;
   }
+
+  .patient-box.selected {
+    background-color: rgb(78, 131, 78);
+  }
