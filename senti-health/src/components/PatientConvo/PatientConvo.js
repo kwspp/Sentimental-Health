@@ -30,6 +30,24 @@ const PatientConvo = () => {
     return <span>Browser doesn't support speech recognition.</span>;
   }
 
+  const submitSentimentAnalysis = async () => {
+    const text = userInput || transcript;
+    try {
+      const response = await fetch('http://localhost:5000/analyze_sentiment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text }),
+      });
+      const data = await response.json();
+      console.log(data.sentiment);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+
   return (
     <div className="patient-convo">
         <p className="convo-title">Patient Conversation</p>
@@ -46,7 +64,7 @@ const PatientConvo = () => {
           className={`convo-button ${isRecording ? 'stop' : 'record'}`}>
           {isRecording ? 'Stop' : 'Record'}
         </button>
-        <button type="submit">Submit</button>
+        <button type="submit" onClick={submitSentimentAnalysis}>Submit</button>
     </div>
   );
 }
