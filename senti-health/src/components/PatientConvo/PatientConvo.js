@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import './PatientConvo.css';
 import { fetchSentimentScores, updateSentimentScores } from '../../firebase';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import SentimentChart from '../SentimentChart';
 
 
 const PatientConvo = ({ selectedPatient  }) => {
@@ -9,6 +10,7 @@ const PatientConvo = ({ selectedPatient  }) => {
   const [userInput, setUserInput] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   // const for speech recognition
+  let sentimentScores = []
   const {
     transcript,
     resetTranscript,
@@ -67,7 +69,7 @@ const PatientConvo = ({ selectedPatient  }) => {
   const addSentimentScore = async (selectedPatient, sentiment) => {
     try {
       // fetch current sentiment scores from patient then add new value and update in backend
-      let sentimentScores = await fetchSentimentScores(selectedPatient);
+      sentimentScores = await fetchSentimentScores(selectedPatient);
       sentimentScores.push(sentiment);      
       await updateSentimentScores(selectedPatient, sentimentScores);
     } catch (e) {
@@ -77,6 +79,7 @@ const PatientConvo = ({ selectedPatient  }) => {
   
 
   return (
+    <>
     <div className="patient-convo">
         <p className="convo-title">Patient Conversation</p>
         <div className="convo-input">
@@ -94,6 +97,10 @@ const PatientConvo = ({ selectedPatient  }) => {
         </button>
         <button type="submit" onClick={submitSentimentAnalysis}>Submit</button>
     </div>
+      <div>
+          <SentimentChart sentimentScores={sentimentScores} />
+      </div>
+    </>
   );
 }
 
