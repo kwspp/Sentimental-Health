@@ -30,7 +30,7 @@ function App() {
                 </div>
               ))}
             <div>
-              <PatientConvo/>
+              <PatientConvo selectedPatient={selectedPatient}/>
             </div>
           </div>
         </div>

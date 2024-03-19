@@ -1,13 +1,15 @@
 import React, {useState} from 'react'
 import './PatientConvo.css';
+import { fetchSentimentScores, updateSentimentScores } from '../../firebase';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 
-const PatientConvo = () => {
+const PatientConvo = ({ selectedPatient  }) => {
   const [userInput, setUserInput] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const {
     transcript,
+    resetTranscript,
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
 
@@ -21,7 +23,7 @@ const PatientConvo = () => {
       setIsRecording(false);
     } else {
       SpeechRecognition.startListening({ continuous: true });
-      setUserInput(''); // Clear input on start
+      setUserInput('');
       setIsRecording(true);
     }
   };
@@ -31,7 +33,13 @@ const PatientConvo = () => {
   }
 
   const submitSentimentAnalysis = async () => {
+    if (selectedPatient == null) {
+      window.alert("Must select a patient");
+      return null
+    }
     const text = userInput || transcript;
+    setUserInput('');
+    resetTranscript();
     try {
       const response = await fetch('http://localhost:5000/analyze_sentiment', {
         method: 'POST',
@@ -41,9 +49,20 @@ const PatientConvo = () => {
         body: JSON.stringify({ text }),
       });
       const data = await response.json();
-      console.log(data.sentiment);
+      console.log(`Sentiment score: ${data.sentiment}, Selected Patient ID: ${selectedPatient}`);
+      addSentimentScore(selectedPatient, data.sentiment)
     } catch (error) {
       console.error('Error:', error);
+    }
+  };
+
+  const addSentimentScore = async (selectedPatient, sentiment) => {
+    try {
+      let sentimentScores = await fetchSentimentScores(selectedPatient);
+      sentimentScores.push(sentiment);      
+      await updateSentimentScores(selectedPatient, sentimentScores);
+    } catch (e) {
+      console.error('Error adding sentiment score: ', e);
     }
   };
   
