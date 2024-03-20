@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import PatientBox from './components/PatientBox/PatientBox';
 import PatientConvo from './components/PatientConvo/PatientConvo';
+import SentimentChart from './components/SentimentChart';
 import 'bulma/css/bulma.min.css';
 import './App.css';
 
 function App() {
   const [selectedPatient, setSelectedPatient] = useState(null);
+  const [lastUpdate, setLastUpdate] = useState(Date.now());
 
   const handleSelectPatient = (patientId) => {
     if (selectedPatient === patientId) {
@@ -30,8 +32,11 @@ function App() {
                 </div>
               ))}
             <div>
-              <PatientConvo/>
+              <PatientConvo selectedPatient={selectedPatient} onNewSentiment={() => setLastUpdate(Date.now())}/>
             </div>
+          </div>
+          <div>
+            <SentimentChart selectedPatient={selectedPatient} lastUpdate={lastUpdate}/>
           </div>
         </div>
       </section>

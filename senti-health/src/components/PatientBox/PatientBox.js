@@ -63,19 +63,21 @@ const PatientBox = ({ patientId, onSelectPatient, isSelected }) => {
 
   return (
     <div>
-      {/* handles displaying patientBox in green on select */}
       <div onClick={handleClick} className={`patient-box ${isSelected ? 'selected' : ''}`}>
         <p className="patient-title">Patient #{patientId}</p>
         <span className="patient-icon">
           <i className="fas fa-plus-circle"></i>
         </span>
-        {/* display patient info if exists */}
         {patientName && patientAge ? (
           <div> 
             <p>Name: {patientName}</p>
             <p>Age: {patientAge}</p>
-            <button style={{marginRight: 10 }} onClick={handleEdit}>Edit</button>
-            <button onClick={handleDelete}>Delete</button>
+            {isSelected && (
+              <>
+                <button style={{marginRight: 10 }} onClick={handleEdit}>Edit</button>
+                <button onClick={handleDelete}>Delete</button>
+              </>
+            )}
           </div>
         ) : (
           <p>Click to add patient details</p>
