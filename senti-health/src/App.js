@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PatientBox from './components/PatientBox/PatientBox';
 import PatientConvo from './components/PatientConvo/PatientConvo';
+import SentimentChart from './components/SentimentChart';
 import 'bulma/css/bulma.min.css';
 import './App.css';
 
@@ -32,6 +33,9 @@ function App() {
             <div>
               <PatientConvo selectedPatient={selectedPatient}/>
             </div>
+          </div>
+          <div>
+            <SentimentChart selectedPatient={selectedPatient}/>
           </div>
         </div>
       </section>

@@ -1,19 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CanvasJSReact from '../canvasjs.react';
+import { fetchSentimentScores } from '../firebase';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-const SentimentChart = ({ sentimentScores }) => {
-    // Prepare the data points for the chart
-    const dataPoints = sentimentScores.map((score, index) => ({
-        x: index + 1, // Assuming you want to start the x-axis at 1
-        y: score
-    }));
+const SentimentChart = ({ selectedPatient }) => {
+    const [dataPoints, setDataPoints] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (selectedPatient) {
+                try {
+                    let sentimentScores = await fetchSentimentScores(selectedPatient);
+                    // Prepare the data points for the chart
+                    const points = sentimentScores.map((score, index) => ({
+                        x: index + 1,
+                        y: score
+                    }));
+                    setDataPoints(points);
+                } catch (error) {
+                    console.log('Error processing sentiment scores: ', error);
+                }
+            }
+        };
+
+        fetchData();
+    }, [selectedPatient]);
 
     // Set up the chart options
     const options = {
         animationEnabled: true,
-        theme: "light2", // or "dark1", "dark2"
+        theme: "light2",
         title: {
             text: "Sentiment Analysis Over Time"
         },
@@ -29,6 +46,7 @@ const SentimentChart = ({ sentimentScores }) => {
         },
         data: [{
             type: "line",
+            color: "#4E834E", 
             dataPoints: dataPoints
         }]
     };

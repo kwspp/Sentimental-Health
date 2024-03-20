@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import './PatientConvo.css';
 import { fetchSentimentScores, updateSentimentScores } from '../../firebase';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import SentimentChart from '../SentimentChart';
 
 
 const PatientConvo = ({ selectedPatient  }) => {
@@ -97,9 +96,6 @@ const PatientConvo = ({ selectedPatient  }) => {
         </button>
         <button type="submit" onClick={submitSentimentAnalysis}>Submit</button>
     </div>
-      <div>
-          <SentimentChart sentimentScores={sentimentScores} />
-      </div>
     </>
   );
 }
