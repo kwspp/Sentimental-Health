@@ -75,6 +75,16 @@ const fetchSentimentScores = async (patientId) => {
   }
 };
 
+const fetchPatientName = async (patientId) => {
+  const q = query(collection(db, 'patients'), where('patientId', '==', patientId));
+  const querySnapshot = await getDocs(q);
+  let patientName = ""; // default to an empty string if not found
+  querySnapshot.forEach((doc) => {
+    patientName = doc.data().name;
+  });
+  return patientName;
+};
+
 const updateSentimentScores = async (patientId, sentimentScores) => {
   const q = query(collection(db, 'patients'), where('patientId', '==', patientId));
   try {
@@ -92,4 +102,4 @@ const updateSentimentScores = async (patientId, sentimentScores) => {
     console.error('Error updating sentiment scores: ', e);
   }
 };
-export { db, addPatient, getPatientByPatientId, deletePatientByPatientId, updatePatientByPatientId, fetchSentimentScores, updateSentimentScores };
+export { db, addPatient, getPatientByPatientId, deletePatientByPatientId, updatePatientByPatientId, fetchSentimentScores, updateSentimentScores, fetchPatientName };

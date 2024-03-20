@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import CanvasJSReact from '../canvasjs.react';
-import { fetchSentimentScores } from '../firebase';
+import { fetchSentimentScores, fetchPatientName  } from '../firebase';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const SentimentChart = ({ selectedPatient, lastUpdate }) => {
     const [dataPoints, setDataPoints] = useState([]);
+    const [chartTitle, setChartTitle] = useState("Patient's Sentiment Analysis");
 
     useEffect(() => {
         const fetchData = async () => {
             if (selectedPatient) {
                 try {
+                    let patientName = await fetchPatientName(selectedPatient);
                     let sentimentScores = await fetchSentimentScores(selectedPatient);
                     // Prepare the data points for the chart
                     const points = sentimentScores.map((score, index) => ({
@@ -18,9 +20,14 @@ const SentimentChart = ({ selectedPatient, lastUpdate }) => {
                         y: score
                     }));
                     setDataPoints(points);
+                    setChartTitle(`${patientName}'s Sentiment Analysis`);
                 } catch (error) {
                     console.log('Error processing sentiment scores: ', error);
+                    setChartTitle("Patient's Sentiment Analysis");
                 }
+            } else {
+                setDataPoints([]);
+                setChartTitle("Patient's Sentiment Analysis");
             }
         };
 
@@ -32,7 +39,7 @@ const SentimentChart = ({ selectedPatient, lastUpdate }) => {
         animationEnabled: true,
         theme: "light2",
         title: {
-            text: "Sentiment Analysis Over Time"
+            text: chartTitle
         },
         axisX: {
             title: "Entry Number",
