@@ -4,7 +4,7 @@ import { fetchSentimentScores, updateSentimentScores } from '../../firebase';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 
-const PatientConvo = ({ selectedPatient  }) => {
+const PatientConvo = ({ selectedPatient, onNewSentiment  }) => {
   //  state management for user input or voice recording
   const [userInput, setUserInput] = useState("");
   const [isRecording, setIsRecording] = useState(false);
@@ -71,6 +71,7 @@ const PatientConvo = ({ selectedPatient  }) => {
       sentimentScores = await fetchSentimentScores(selectedPatient);
       sentimentScores.push(sentiment);      
       await updateSentimentScores(selectedPatient, sentimentScores);
+      onNewSentiment();
     } catch (e) {
       console.error('Error adding sentiment score: ', e);
     }

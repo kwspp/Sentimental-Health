@@ -4,7 +4,7 @@ import { fetchSentimentScores } from '../firebase';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-const SentimentChart = ({ selectedPatient }) => {
+const SentimentChart = ({ selectedPatient, lastUpdate }) => {
     const [dataPoints, setDataPoints] = useState([]);
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const SentimentChart = ({ selectedPatient }) => {
         };
 
         fetchData();
-    }, [selectedPatient]);
+    }, [selectedPatient, lastUpdate]);
 
     // Set up the chart options
     const options = {

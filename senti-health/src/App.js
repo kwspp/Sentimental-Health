@@ -7,6 +7,7 @@ import './App.css';
 
 function App() {
   const [selectedPatient, setSelectedPatient] = useState(null);
+  const [lastUpdate, setLastUpdate] = useState(Date.now());
 
   const handleSelectPatient = (patientId) => {
     if (selectedPatient === patientId) {
@@ -31,11 +32,11 @@ function App() {
                 </div>
               ))}
             <div>
-              <PatientConvo selectedPatient={selectedPatient}/>
+              <PatientConvo selectedPatient={selectedPatient} onNewSentiment={() => setLastUpdate(Date.now())}/>
             </div>
           </div>
           <div>
-            <SentimentChart selectedPatient={selectedPatient}/>
+            <SentimentChart selectedPatient={selectedPatient} lastUpdate={lastUpdate}/>
           </div>
         </div>
       </section>
