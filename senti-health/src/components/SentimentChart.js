@@ -15,9 +15,9 @@ const SentimentChart = ({ selectedPatient, lastUpdate }) => {
                     let patientName = await fetchPatientName(selectedPatient);
                     let sentimentScores = await fetchSentimentScores(selectedPatient);
                     // Prepare the data points for the chart
-                    const points = sentimentScores.map((score, index) => ({
+                    const points = sentimentScores.map((entry, index) => ({
                         x: index + 1,
-                        y: score
+                        y: entry.score
                     }));
                     setDataPoints(points);
                     setChartTitle(`${patientName}'s Sentiment Analysis`);

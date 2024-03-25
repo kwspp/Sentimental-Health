@@ -57,7 +57,6 @@ const PatientConvo = ({ selectedPatient, onNewSentiment  }) => {
         body: JSON.stringify({ text }),
       });
       const data = await response.json();
-      console.log(`Sentiment score: ${data.sentiment}, Selected Patient ID: ${selectedPatient}`);
       // save sentiment score to patient
       addSentimentScore(selectedPatient, data.sentiment)
     } catch (error) {
@@ -69,13 +68,21 @@ const PatientConvo = ({ selectedPatient, onNewSentiment  }) => {
     try {
       // fetch current sentiment scores from patient then add new value and update in backend
       sentimentScores = await fetchSentimentScores(selectedPatient);
-      sentimentScores.push(sentiment);      
+      if (sentimentScores.length === 5) {
+        sentimentScores.shift();
+      }
+      const newScore = {
+        score: sentiment,
+        date: new Date() 
+      };
+      sentimentScores.push(newScore);
       await updateSentimentScores(selectedPatient, sentimentScores);
       onNewSentiment();
     } catch (e) {
       console.error('Error adding sentiment score: ', e);
     }
   };
+  
   
 
   return (
