@@ -64,13 +64,14 @@ const PatientBox = ({ patientId, onSelectPatient, isSelected }) => {
   return (
     <div>
       <div onClick={handleClick} className={`patient-box ${isSelected ? 'selected' : ''}`}>
-        <p className="patient-title">Patient #{patientId}</p>
+        <p className="patient-title">
+          {hasData && patientName ? patientName : `Patient #${patientId}`}
+        </p>
         <span className="patient-icon">
           <i className="fas fa-plus-circle"></i>
         </span>
-        {patientName && patientAge ? (
+        {hasData ? (
           <div> 
-            <p>Name: {patientName}</p>
             <p>Age: {patientAge}</p>
             {isSelected && (
               <>
