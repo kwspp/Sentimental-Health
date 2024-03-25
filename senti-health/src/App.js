@@ -21,28 +21,34 @@ function App() {
 
   return (
     <div className="App">
-      <Header/>
+      <Header />
       <section className="section">
         <div className="container">
           <div className="columns">
-            {[1, 2, 3].map((patientId) => (
-                <div key={patientId} className="column">
-                  <PatientBox
-                    patientId={patientId}
-                    onSelectPatient={handleSelectPatient}
-                    isSelected={selectedPatient === patientId}
-                  />
-                </div>
+            
+            {/* Column for PatientBoxes stacked vertically */}
+            <div className="column is-3">
+              {[1, 2, 3].map((patientId) => (
+                <PatientBox
+                  key={patientId}
+                  patientId={patientId}
+                  onSelectPatient={handleSelectPatient}
+                  isSelected={selectedPatient === patientId}
+                />
               ))}
-            <div>
-              <PatientConvo selectedPatient={selectedPatient} onNewSentiment={() => setLastUpdate(Date.now())}/>
             </div>
-          </div>
-          <div>
-            <SentimentChart selectedPatient={selectedPatient} lastUpdate={lastUpdate}/>
-          </div>
-          <div>
-            <SentimentScoreTable selectedPatient={selectedPatient} lastUpdate={lastUpdate} />
+  
+            {/* Column for SentimentChart and SentimentScoreTable stacked vertically */}
+            <div className="column is-6">
+              <SentimentChart selectedPatient={selectedPatient} lastUpdate={lastUpdate} />
+              <SentimentScoreTable selectedPatient={selectedPatient} lastUpdate={lastUpdate} />
+            </div>
+  
+            {/* Column for PatientConvo */}
+            <div className="column is-3">
+              <PatientConvo selectedPatient={selectedPatient} onNewSentiment={() => setLastUpdate(Date.now())} />
+            </div>
+  
           </div>
         </div>
       </section>

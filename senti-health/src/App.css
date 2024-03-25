@@ -43,3 +43,12 @@ html, body {
   color: #FFFFFF; 
   font-size: 1.7rem;
 }
+
+.columns {
+  height: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
