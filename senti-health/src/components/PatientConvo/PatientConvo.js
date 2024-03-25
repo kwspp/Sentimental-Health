@@ -68,17 +68,21 @@ const PatientConvo = ({ selectedPatient, onNewSentiment  }) => {
     try {
       // fetch current sentiment scores from patient then add new value and update in backend
       sentimentScores = await fetchSentimentScores(selectedPatient);
+      if (sentimentScores.length === 5) {
+        sentimentScores.shift();
+      }
       const newScore = {
         score: sentiment,
-        date: new Date() // Save the current date
+        date: new Date() 
       };
-      sentimentScores.push(newScore);      
+      sentimentScores.push(newScore);
       await updateSentimentScores(selectedPatient, sentimentScores);
       onNewSentiment();
     } catch (e) {
       console.error('Error adding sentiment score: ', e);
     }
   };
+  
   
 
   return (
