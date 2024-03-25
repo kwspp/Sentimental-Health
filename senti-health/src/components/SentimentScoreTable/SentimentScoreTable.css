@@ -1,0 +1,13 @@
+.table-container {
+    min-width: 1000px;
+  }
+  
+  .table {
+    margin: 0 auto; 
+  }
+  
+  .table th, .table td {
+    text-align: center; 
+    padding: 0.5em;
+  }
+  
