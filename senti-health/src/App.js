@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PatientBox from './components/PatientBox/PatientBox';
 import PatientConvo from './components/PatientConvo/PatientConvo';
 import SentimentChart from './components/SentimentChart';
+import Header from './components/Header/Header';
 import 'bulma/css/bulma.min.css';
 import './App.css';
 
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <div className="App">
+      <Header/>
       <section className="section">
         <div className="container">
           <div className="columns">

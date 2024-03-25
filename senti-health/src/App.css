@@ -31,3 +31,15 @@ html, body {
   border: none;
   border-radius: 5px;
 }
+
+
+.header {
+  background-color: #363636;
+  padding: 10px 0px;
+  text-align: center;
+}
+
+.title {
+  color: #FFFFFF; 
+  font-size: 1.7rem;
+}
