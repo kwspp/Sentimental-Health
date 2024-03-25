@@ -8,12 +8,18 @@ const SentimentScoreTable = ({ selectedPatient, lastUpdate }) => {
     const fetchScores = async () => {
       if (selectedPatient) {
         const scores = await fetchSentimentScores(selectedPatient);
-        setSentimentScores([...scores].reverse()); // Make a copy and reverse it
+        setSentimentScores([...scores].reverse()); //reverse to have most recent first
       }
     };
 
     fetchScores();
   }, [selectedPatient, lastUpdate]);
+
+  const formatDate = (firebaseTimestamp) => {
+    const date = firebaseTimestamp.toDate(); // Convert Timestamp to JavaScript Date object
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString(undefined, options);
+  };
 
   return (
     <div>
@@ -21,16 +27,16 @@ const SentimentScoreTable = ({ selectedPatient, lastUpdate }) => {
         <table className="table">
           <thead>
             <tr>
-              <th>Entry Number</th>
+              <th>Date</th>
               <th>Sentiment Score</th>
             </tr>
           </thead>
           <tbody>
-            {sentimentScores.map((score, index) => (
-              <tr key={index}>
-                <td>{sentimentScores.length - index}</td> {/* Adjust the index */}
-                <td>{score.toFixed(2)}</td>
-              </tr>
+            {sentimentScores.map((entry, index) => (
+                <tr key={index}>
+                <td>{formatDate(entry.date)}</td> 
+                <td>{entry.score.toFixed(2)}</td>
+                </tr>
             ))}
           </tbody>
         </table>
