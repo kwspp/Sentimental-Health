@@ -9,7 +9,7 @@ const SentimentScoreTable = ({ selectedPatient, lastUpdate }) => {
     const fetchScores = async () => {
       if (selectedPatient) {
         const scores = await fetchSentimentScores(selectedPatient);
-        setSentimentScores([...scores].reverse()); // Reverse to have the most recent first
+        setSentimentScores([...scores].reverse()); // reverse to have the most recent first
       } else {
         setSentimentScores([]);
       }
@@ -19,12 +19,11 @@ const SentimentScoreTable = ({ selectedPatient, lastUpdate }) => {
   }, [selectedPatient, lastUpdate]);
 
   const formatDate = (firebaseTimestamp) => {
-    const date = firebaseTimestamp.toDate(); // Convert Timestamp to JavaScript Date object
+    const date = firebaseTimestamp.toDate(); // convert Timestamp to JavaScript Date object
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return date.toLocaleDateString(undefined, options);
   };
 
-  // Adjusted function to calculate the running average from bottom up
   const calculateAverageFromBottom = (index) => {
     let sum = 0;
     let count = 0;
@@ -32,14 +31,19 @@ const SentimentScoreTable = ({ selectedPatient, lastUpdate }) => {
       sum += sentimentScores[i].score;
       count++;
     }
-    return (sum / count).toFixed(2); // Return average from current index to the end
+    return (sum / count).toFixed(2);
   };
 
-  // Function to determine the color of the sentiment score based on its value
+  const calculateDeltaChange = (index) => {
+    if (index === sentimentScores.length - 1) return 'N/A';
+    const delta = Math.abs(sentimentScores[index].score - sentimentScores[index + 1].score).toFixed(2);
+    return delta;
+  };
+
   const getScoreColor = (score) => {
     if (score > 0) return '#4E834E';
     if (score < 0) return '#C70039';
-    return 'black'; // Score is exactly 0
+    return 'black'; // score is exactly 0
   };
 
   return (
@@ -51,7 +55,8 @@ const SentimentScoreTable = ({ selectedPatient, lastUpdate }) => {
               <tr>
                 <th className="has-text-centered">Date</th>
                 <th className="has-text-centered">Sentiment Score</th>
-                <th className="has-text-centered">Average</th> {/* New Average Column Header */}
+                <th className="has-text-centered">Average</th>
+                <th className="has-text-centered">Delta Change</th>
               </tr>
             </thead>
             <tbody>
@@ -61,7 +66,8 @@ const SentimentScoreTable = ({ selectedPatient, lastUpdate }) => {
                   <td className="has-text-centered" style={{ color: getScoreColor(entry.score) }}>
                     {entry.score.toFixed(2)}
                   </td>
-                  <td className="has-text-centered">{calculateAverageFromBottom(index)}</td> {/* Display adjusted average */}
+                  <td className="has-text-centered">{calculateAverageFromBottom(index)}</td>
+                  <td className="has-text-centered">{calculateDeltaChange(index)}</td>
                 </tr>
               ))}
             </tbody>

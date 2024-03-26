@@ -24,7 +24,6 @@ function App() {
       <Header />
       <section className="section no-padding-right">
         <div className="columns">
-          {/* Custom Column for PatientBoxes */}
           <div className="column is-2-5">
             {[1, 2, 3].map((patientId) => (
               <PatientBox
@@ -35,14 +34,12 @@ function App() {
               />
             ))}
           </div>
-
-          {/* Custom Column for SentimentChart and SentimentScoreTable */}
           <div className="column is-6-5">
-            <SentimentChart selectedPatient={selectedPatient} lastUpdate={lastUpdate} />
-            <SentimentScoreTable selectedPatient={selectedPatient} lastUpdate={lastUpdate} />
+            <div className="chart-and-table-container">
+              <SentimentChart selectedPatient={selectedPatient} lastUpdate={lastUpdate} />
+              <SentimentScoreTable selectedPatient={selectedPatient} lastUpdate={lastUpdate} />
+            </div>
           </div>
-
-          {/* Standard Column for PatientConvo */}
           <div className="column is-3 negative-margin">
             <PatientConvo selectedPatient={selectedPatient} onNewSentiment={() => setLastUpdate(Date.now())} />
           </div>
