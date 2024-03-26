@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import CanvasJSReact from '../canvasjs.react';
-import { fetchSentimentScores, fetchPatientName  } from '../firebase';
+import CanvasJSReact from '../../canvasjs.react';
+import { fetchSentimentScores, fetchPatientName  } from '../../firebase';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
