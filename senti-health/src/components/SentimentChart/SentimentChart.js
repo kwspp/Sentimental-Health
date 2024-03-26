@@ -17,7 +17,9 @@ const SentimentChart = ({ selectedPatient, lastUpdate }) => {
                     // Prepare the data points for the chart
                     const points = sentimentScores.map((entry, index) => ({
                         x: index + 1,
-                        y: entry.score
+                        y: entry.score,
+                        color: entry.score < 0 ? "#C70039" : "#434343" // Set color to red if score is below 0, otherwise use default color
+
                     }));
                     setDataPoints(points);
                     setChartTitle(`${patientName}'s Sentiment Analysis`);
@@ -53,7 +55,7 @@ const SentimentChart = ({ selectedPatient, lastUpdate }) => {
         },
         data: [{
             type: "line",
-            color: "#4E834E", 
+            color: "#434343", 
             dataPoints: dataPoints
         }]
     };
