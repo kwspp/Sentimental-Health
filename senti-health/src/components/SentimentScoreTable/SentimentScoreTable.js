@@ -35,6 +35,13 @@ const SentimentScoreTable = ({ selectedPatient, lastUpdate }) => {
     return (sum / count).toFixed(2); // Return average from current index to the end
   };
 
+  // Function to determine the color of the sentiment score based on its value
+  const getScoreColor = (score) => {
+    if (score > 0) return '#4E834E';
+    if (score < 0) return '#C70039';
+    return 'black'; // Score is exactly 0
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px 0' }}>
       {sentimentScores.length > 0 ? (
@@ -51,7 +58,9 @@ const SentimentScoreTable = ({ selectedPatient, lastUpdate }) => {
               {sentimentScores.map((entry, index) => (
                 <tr key={index}>
                   <td className="has-text-centered">{formatDate(entry.date)}</td>
-                  <td className="has-text-centered">{entry.score.toFixed(2)}</td>
+                  <td className="has-text-centered" style={{ color: getScoreColor(entry.score) }}>
+                    {entry.score.toFixed(2)}
+                  </td>
                   <td className="has-text-centered">{calculateAverageFromBottom(index)}</td> {/* Display adjusted average */}
                 </tr>
               ))}
