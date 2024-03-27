@@ -68,7 +68,7 @@ const PatientConvo = ({ selectedPatient, onNewSentiment  }) => {
     try {
       // fetch current sentiment scores from patient then add new value and update in backend
       sentimentScores = await fetchSentimentScores(selectedPatient);
-      if (sentimentScores.length === 5) {
+      if (sentimentScores.length === 8) {
         sentimentScores.shift();
       }
       const newScore = {

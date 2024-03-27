@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import CanvasJSReact from '../canvasjs.react';
-import { fetchSentimentScores, fetchPatientName  } from '../firebase';
+import CanvasJSReact from '../../canvasjs.react';
+import { fetchSentimentScores, fetchPatientName  } from '../../firebase';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -17,7 +17,9 @@ const SentimentChart = ({ selectedPatient, lastUpdate }) => {
                     // Prepare the data points for the chart
                     const points = sentimentScores.map((entry, index) => ({
                         x: index + 1,
-                        y: entry.score
+                        y: entry.score,
+                        color: entry.score > 0 ? "#4E834E" : entry.score < 0 ? "#C70039" : "#434343" // Green for > 0, red for < 0, grey for 0
+
                     }));
                     setDataPoints(points);
                     setChartTitle(`${patientName}'s Sentiment Analysis`);
@@ -53,7 +55,7 @@ const SentimentChart = ({ selectedPatient, lastUpdate }) => {
         },
         data: [{
             type: "line",
-            color: "#4E834E", 
+            color: "#434343", 
             dataPoints: dataPoints
         }]
     };

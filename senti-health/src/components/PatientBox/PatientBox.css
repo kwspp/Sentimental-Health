@@ -1,6 +1,6 @@
 .patient-box {
     cursor: pointer;
-    margin: 20px;
+    margin: 30px;
     padding: 40px;
     background-color: #2a2a2a;
     color: #ffffff; 
@@ -8,6 +8,7 @@
     border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     transition: transform 0.2s, box-shadow 0.2s; 
+    max-width: 275px;
   }
   
   .patient-box:hover {
