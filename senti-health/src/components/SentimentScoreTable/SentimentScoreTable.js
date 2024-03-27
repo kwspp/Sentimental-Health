@@ -46,6 +46,14 @@ const SentimentScoreTable = ({ selectedPatient, lastUpdate }) => {
     return 'black'; // score is exactly 0
   };
 
+  const getDeltaChangeColor = (index) => {
+    if (index === sentimentScores.length - 1) return 'black'; // No delta change for the last item
+    const currentScore = sentimentScores[index].score;
+    const previousScore = sentimentScores[index + 1].score;
+    if (currentScore === previousScore) return 'black'; // No change
+    return currentScore > previousScore ? '#4E834E' : '#C70039'; // Green if increase, red if decrease
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px 0' }}>
       {sentimentScores.length > 0 ? (
@@ -67,7 +75,9 @@ const SentimentScoreTable = ({ selectedPatient, lastUpdate }) => {
                     {entry.score.toFixed(2)}
                   </td>
                   <td className="has-text-centered">{calculateAverageFromBottom(index)}</td>
-                  <td className="has-text-centered">{calculateDeltaChange(index)}</td>
+                  <td className="has-text-centered" style={{ color: getDeltaChangeColor(index) }}>
+                    {calculateDeltaChange(index)}
+                  </td>
                 </tr>
               ))}
             </tbody>
